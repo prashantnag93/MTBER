@@ -1,0 +1,17 @@
+name: MTBER
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - numpy
+  - pandas
+  - tqdm
+  - matplotlib
+
+  - dvc[all]
+  - jupyter
+  - pip
+
+  - pip:
+      - -r requirements.txt
