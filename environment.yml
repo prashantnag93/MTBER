@@ -5,10 +5,8 @@ channels:
 dependencies:
   - python=3.9
   - numpy
-  - pandas
+  - jupyter
   - tqdm
   - matplotlib
-
   - dvc[all]
   - jupyter
-  - pip
