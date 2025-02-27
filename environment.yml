@@ -3,12 +3,22 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.9
-  - numpy
-  - pandas
-  - tqdm
-  - matplotlib
-
-  - dvc[all]
-  - jupyter
+  - python=3.10
   - pip
+  - numpy
+  - scipy
+  - pandas
+  - scikit-learn
+  - seaborn
+  - matplotlib
+  - tqdm
+  - packaging
+  - jupyterlab
+  - pudb
+  - pre-commit
+  - black
+  - isort
+  - flake8
+  - python-dotenv
+  - pytest
+

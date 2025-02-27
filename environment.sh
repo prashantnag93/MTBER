@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Exit on error
-set -e
+set -x
 
 # Project variables
 ENV_NAME="MTBER"  # Change as needed
@@ -77,14 +77,14 @@ initialize_micromamba() {
         micromamba shell init --shell bash || echo "⚠️ Warning: Micromamba shell init failed. Skipping..."
         echo "✅ Micromamba shell initialized."
         echo "⚠️  Please restart your shell or run: source ~/.bashrc"
-        return 0  # Prevent exit
+        return 0
     else
         echo "✅ Micromamba shell already initialized. Skipping..."
     fi
 
-    # Ensure the shell is aware of Micromamba
     eval "$(micromamba shell hook --shell bash)" || echo "⚠️ Warning: Micromamba shell hook failed."
 }
+
 
 # Function to create the environment (only if it doesn't exist)
 create_environment() {
