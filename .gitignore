@@ -29,3 +29,7 @@ output/
 
 # RStudio
 .Rproj.user
+
+# Generated files
+**/__pycache__/
+**/.ipynb_checkpoints/
