@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Exit on error
-set -e
+set -x
 
 # Project variables
-ENV_NAME="MTBER"  # Change as needed
+ENV_NAME="MTBER" # Change as needed
 
 # Ensure Micromamba's default install path is added to PATH before checking
 export PATH="$HOME/.local/bin:$PATH"
@@ -12,11 +12,11 @@ export PATH="$HOME/.local/bin:$PATH"
 # Function to check internet connectivity
 check_internet() {
     echo "🌍 Checking internet connectivity..."
-    if ping -c 1 8.8.8.8 &> /dev/null; then
+    if ping -c 1 8.8.8.8 &>/dev/null; then
         echo "✅ Internet connection is active."
     else
         echo "❌ Error: No internet connection. Please check your network and try again."
-        return 1  # Prevent script from exiting immediately
+        return 1 # Prevent script from exiting immediately
     fi
 }
 
@@ -31,12 +31,12 @@ cleanup() {
 
 # Function to check if Micromamba is installed
 check_micromamba() {
-    if ! command -v micromamba &> /dev/null; then
+    if ! command -v micromamba &>/dev/null; then
         echo "⚠️  Micromamba not found. Installing..."
-        
+
         # Correct way: Use -b (batch mode) to install without interaction
         curl -L micro.mamba.pm/install.sh | bash -s - -b
-        
+
         # Ensure PATH is updated immediately
         export PATH="$HOME/.local/bin:$PATH"
         echo "✅ Micromamba installed."
@@ -44,7 +44,6 @@ check_micromamba() {
         echo "✅ Micromamba is already installed."
     fi
 }
-
 
 # Function to check Micromamba version
 check_micromamba_version() {
@@ -67,9 +66,6 @@ check_micromamba_version() {
     fi
 }
 
-
-
-
 # Function to initialize Micromamba shell
 initialize_micromamba() {
     if ! grep -q 'micromamba shell init' ~/.bashrc; then
@@ -77,22 +73,21 @@ initialize_micromamba() {
         micromamba shell init --shell bash || echo "⚠️ Warning: Micromamba shell init failed. Skipping..."
         echo "✅ Micromamba shell initialized."
         echo "⚠️  Please restart your shell or run: source ~/.bashrc"
-        return 0  # Prevent exit
+        return 0
     else
         echo "✅ Micromamba shell already initialized. Skipping..."
     fi
 
-    # Ensure the shell is aware of Micromamba
     eval "$(micromamba shell hook --shell bash)" || echo "⚠️ Warning: Micromamba shell hook failed."
 }
 
 # Function to create the environment (only if it doesn't exist)
 create_environment() {
     echo "🔍 Checking if environment '$ENV_NAME' exists..."
-    
+
     if ! micromamba env list | awk '{print $1}' | grep -qx "$ENV_NAME"; then
         echo "⚠️  Environment '$ENV_NAME' does not exist. Creating it..."
-        
+
         if [ ! -f "environment.yml" ]; then
             echo "❌ Error: environment.yml file not found. Cannot create environment."
             exit 1
@@ -108,17 +103,15 @@ create_environment() {
     fi
 }
 
-
 # Function to verify the environment
 verify_environment() {
     echo "🛠️  Verifying environment..."
-    if ! micromamba list -n "$ENV_NAME" &> /dev/null; then
+    if ! micromamba list -n "$ENV_NAME" &>/dev/null; then
         echo "❌ Error: Environment verification failed."
-        cleanup  # Only remove if verification fails
+        cleanup # Only remove if verification fails
         return 1
     fi
 }
-
 
 # Trap errors
 trap 'echo "❌ Error on line $LINENO"; exit 1' ERR
